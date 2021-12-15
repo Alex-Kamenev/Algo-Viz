@@ -1,0 +1,7 @@
+{
+  "name": "try-two",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
