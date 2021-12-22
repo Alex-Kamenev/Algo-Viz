@@ -7,24 +7,53 @@ interface ContainerProps {
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   return (
     <div className="container">
-      <strong>Notes</strong>
+      <h1>Algorithms Visualizer</h1>
+      <br />
+      <strong>Brief</strong>
       <p>
-        Main Area for display of algo viz (Maybe use D3 or canvas to display
-        shapes and then based on algo steps perform changes to shapes).
+        This project is a work in progress. Having said that let's get into the
+        purpose and main target audience of the application.
       </p>
       <br />
-      <strong>Sort</strong>
+      <strong>Purpose</strong>
       <p>
-        Show bar chart with number of bars based on user input. For each step in
-        algo move bar to correct position as per step indication and use color
-        to highlight.
+        Allow users to undestand how algorithms work by providing controlled
+        visual examples. It is my believe that when learning new information the
+        ability to play around with it and see for yourself how it actually work
+        is a vital part of making the pledge yours.
       </p>
       <br />
+      <strong>Target Audience</strong>
       <p>
-        For graph algo show vertices as circles and edges as lines. Of some
-        traversal is done use color to indicate what is going on and use arros
-        next to edges (not yet clear on implementation).
+        Students of algorithms and the theory around the topic of all ages. With
+        a focus on young learners mainly ones still in middle and high school.
       </p>
+      <br />
+      <strong>Want to get involved?</strong>
+      <p>
+        This project is open to all who wish to contribute. Repo:{' '}
+        <a href="https://github.com/Alex-Kamenev/Algo-Viz">algo-viz</a>
+      </p>
+      <strong>Do to</strong>
+      <p>
+        <ol>
+          <li>Implement Binary Sort and Search</li>
+          <li>
+            Clean up code base and modularize components for reusability and
+            eaase of understanding
+          </li>
+          <li>
+            Add functionality to menu in form of drop downs and selection
+            between different algorithms
+          </li>
+          <li>
+            Implement other well know algorithms for sorting and seraching
+          </li>
+        </ol>
+      </p>
+      <br />
+      <strong>Contributors</strong>
+      <h5>Aleksandar Kamenev</h5>
     </div>
   );
 };

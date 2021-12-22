@@ -6,16 +6,7 @@ interface ContainerProps {
   name: string;
 }
 
-//try force updatae
-function useForceUpdate() {
-  let [value, setState] = useState(true);
-  return () => setState(!value);
-}
-
 const Sort: React.FC<ContainerProps> = ({ name }) => {
-  //demo force uppdatge
-  let forceUpdate = useForceUpdate();
-
   // param for the number of elements taht will be in the array
   const [numberOfElements, setNumberOfElements] = useState(5);
 
@@ -35,10 +26,13 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
   //const to hold max after each new array gen
   const [max, setMax] = useState<number>(0);
 
-  let myRefs: any = useRef([]);
+  //state to be used for color change
+  const [color, setColor] = useState<any>(-1);
 
-  // test useState for div dimentions
-  const [_heigth, set_heigth] = useState(0);
+  //state to be used for color change
+  const [ableButton, setAbleButton] = useState<boolean>(true);
+
+  let myRefs: any = useRef([]);
 
   // generate array oif random number in range of block size and of count user input
   const generateArrayOfnumbers = (numOfElements: number): number[] => {
@@ -59,42 +53,51 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
     });
   }
 
-  function wait(ms: any) {
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + ms) {
-      end = new Date().getTime();
-    }
-  }
+  // encapsulate setTimeout in a promise, so we can await it below
+  const wait = (timeout: any) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  };
 
   //n^2
   // Creating the bblSort function
-  function bubbleSort(array: number[]) {
-    var i;
-    var j;
-    for (i = 0; i < array.length; i++) {
-      // Last i elements are already in place
-      for (j = 0; j < array.length - i - 1; j++) {
-        // Checking if the item at present iteration
-        // is greater than the next iteration
+  async function bubbleSort(array: number[]) {
+    setAbleButton(true);
+    let isSorted = false;
+    while (!isSorted) {
+      isSorted = true;
+      for (let i = 0; i < array.length - 1; i++) {
+        await wait(1000);
+        setColor(i);
 
-        if (array[j] > array[j + 1]) {
-          // If the condition is true then swap them
-          var temp = array[j];
-          array[j] = array[j + 1];
-          array[j + 1] = temp;
+        if (array[i] > array[i + 1]) {
+          [array[i], array[i + 1]] = [array[i + 1], array[i]];
+          isSorted = false;
+          await wait(1000);
+          setColor(i + 1);
+
+          setArrayOfElements(array.slice());
         }
-        setTimeout(() => {
-          forceUpdate();
-        }, 2000);
-        clearTimeout();
       }
     }
+    await wait(1000);
+    setColor(-1);
+    setAbleButton(false);
+    return array;
   }
+
   //Main return
   return (
     <div className="container" ref={containerRef}>
       <strong>{name}</strong>
+      <p>
+        legent: color of bars:{' '}
+        <span style={{ color: 'red', backgroundColor: 'white' }}>red</span>{' '}
+        indicates swap required,{' '}
+        <span style={{ color: 'green', backgroundColor: 'white' }}>red</span>{' '}
+        indicates no swap required. Max input 25 and min input 0.
+      </p>
 
       <div
         id="outer-unit"
@@ -108,8 +111,8 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
                 position: 'relative',
               }
             : {
-                height: window.innerHeight * 0.4 + 'px',
-                width: window.innerWidth * 0.65 + 'px',
+                height: window.innerHeight * 0.55 + 'px',
+                width: window.innerWidth * 0.6 + 'px',
                 position: 'relative',
               }
         }
@@ -119,7 +122,7 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
 
           return setArrayOfElementsHeights();
         })} */}
-        {arrayOfElements.map((currentElement, index) => {
+        {arrayOfElements.map((currentElement: any, index) => {
           return (
             <div
               ref={(ele: any) => (myRefs.current[index] = ele)}
@@ -142,7 +145,6 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
                         outerUnit.current.clientHeight * 0.1) /
                         max) *
                         arrayOfElements[index] +
-                      _heigth +
                       'px'
                     : '',
                 width: outerUnit.current
@@ -150,10 +152,15 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
                     (outerUnit.current.clientWidth / 100) * 1.5 +
                     'px'
                   : '',
-                backgroundColor: '#db7420',
+                backgroundColor:
+                  color === index
+                    ? arrayOfElements[index] > arrayOfElements[index + 1]
+                      ? '#FF1111'
+                      : '#127420'
+                    : '#db7420',
               }}
             >
-              <h3>{arrayOfElements[index]}</h3>
+              <h3 className="number-display">{arrayOfElements[index]}</h3>
             </div>
           );
         })}
@@ -163,25 +170,40 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
         value={numberOfElements}
         placeholder="Enter Number"
         className="input-num"
-        onIonChange={(e) => setNumberOfElements(parseInt(e.detail.value!, 10))}
+        min="0"
+        max="25"
+        onIonChange={(e) => {
+          let myNum = parseInt(e.detail.value!, 10);
+          if (myNum > 25) {
+            setNumberOfElements(25);
+          } else if (myNum < 0) {
+            setNumberOfElements(0);
+          } else {
+            setNumberOfElements(myNum);
+          }
+        }}
       ></IonInput>
       <IonButton
+        className="input-num"
         onClick={() => {
           const data = generateArrayOfnumbers(numberOfElements);
           setArrayOfElements(data);
           setMax(0);
           setMax(getMax(data));
           setNumberOfElementsStyleInput(numberOfElements);
+          setAbleButton(false);
         }}
       >
-        Random generate
+        Generate Random Array
       </IonButton>
       <IonButton
+        className="input-num"
+        disabled={ableButton}
         onClick={() => {
-          bubbleSort(arrayOfElements);
+          bubbleSort(arrayOfElements.slice());
         }}
       >
-        Bubble Sort
+        Use Bubble Sort to Sort Array
       </IonButton>
       <section className="info-section">
         <h1>Bubble Sort algorithm using JavaScript</h1>
@@ -193,12 +215,12 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
         </p>
         <h2>How Bubble-sort works</h2>
         <p>
-          We have an unsorted array arr = [ 1, 4, 2, 5, -2, 3 ] the task is to
-          sort the array using bubble sort. Bubble sort compares the element
-          from index 0 and if the 0th index is less than 1st index then the
-          values get swapped and if the 0th index is less than the 1st index
-          then nothing happens. then, the 1st index compares to the 2nd index
-          then the 2nd index compares to the 3rd, and so on…
+          We have an unsorted array. The task is to sort the array using bubble
+          sort. Bubble sort compares the element from index 0 and if the 0th
+          index is less than 1st index then the values get swapped and if the
+          0th index is less than the 1st index then nothing happens. then, the
+          1st index compares to the 2nd index then the 2nd index compares to the
+          3rd, and so on…
         </p>
       </section>
       <br />

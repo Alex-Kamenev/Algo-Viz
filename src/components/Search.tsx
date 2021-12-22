@@ -1,6 +1,6 @@
 import { IonButton, IonInput } from '@ionic/react';
 import React, { useState, useRef } from 'react';
-import './Search.css';
+import './Sort.css';
 
 interface ContainerProps {
   name: string;
@@ -29,12 +29,6 @@ const Search: React.FC<ContainerProps> = ({ name }) => {
   //const to hold max after each new array gen
   const [max, setMax] = useState<number>(0);
 
-  //to hold initial values for height and width of inner display area
-  let init_dimentions_inner_area = {
-    height: '',
-    width: '',
-  };
-
   // generate array oif random number in range of block size and of count user input
   const generateArrayOfnumbers = async (
     numOfElements: number
@@ -46,6 +40,7 @@ const Search: React.FC<ContainerProps> = ({ name }) => {
       tempArray[index] = num;
     }
 
+    tempArray.sort((a, b) => a - b);
     return tempArray;
   };
 
@@ -113,7 +108,7 @@ const Search: React.FC<ContainerProps> = ({ name }) => {
                   backgroundColor: '#db7420',
                 }}
               >
-                <h3>{currentElement}</h3>
+                <h5 className="number-display">{currentElement}</h5>
               </div>
             );
           })}
@@ -123,9 +118,19 @@ const Search: React.FC<ContainerProps> = ({ name }) => {
         value={numberOfElements}
         placeholder="Enter Number"
         className="input-num"
-        onIonChange={(e) => setNumberOfElements(parseInt(e.detail.value!, 10))}
+        onIonChange={(e) => {
+          let myNum = parseInt(e.detail.value!, 10);
+          if (myNum > 25) {
+            setNumberOfElements(25);
+          } else if (myNum < 0) {
+            setNumberOfElements(0);
+          } else {
+            setNumberOfElements(myNum);
+          }
+        }}
       ></IonInput>
       <IonButton
+        className="input-num"
         onClick={() => {
           generateArrayOfnumbers(numberOfElements).then((data) => {
             setArrayOfElements(data);
@@ -136,7 +141,7 @@ const Search: React.FC<ContainerProps> = ({ name }) => {
           });
         }}
       >
-        Set Number Of Elements
+        Generate Sorted Array
       </IonButton>
     </div>
   );

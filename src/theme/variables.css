@@ -71,4 +71,8 @@ http://ionicframework.com/docs/theming/ */
     rgba(183, 6, 6, 1) 81%,
     rgba(222, 124, 90, 1) 95%
   );
+
+  --text-color: #f1f1f1;
+  --text-color-inner: #e7e7e7;
+  --link-color: #197ae9;
 }

@@ -4,13 +4,17 @@
   height: 100%;
   padding-bottom: 10rem;
   overflow: auto;
-  color: #f1f1f1;
+  color: var(--text-color);
 }
 
 .outer-unit-class {
   margin-right: auto;
   margin-left: auto;
-  background-color: #f1f1f1;
+  background-color: var(--text-color);
+}
+
+.input-num {
+  --color: var(--ion-color-tertiary-contrast);
 }
 
 .container ion-input {
@@ -27,9 +31,14 @@
 }
 
 section.info-section {
-  color: #f1f1f1;
+  color: var(--text-color);
 }
 
 section.info-section p {
-  color: #e7e7e7;
+  color: var(--text-color-inner);
+}
+
+.number-display {
+  font-size: 1.5em;
+  margin-top: 2px;
 }
