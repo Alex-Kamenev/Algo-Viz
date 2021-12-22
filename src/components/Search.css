@@ -1,0 +1,54 @@
+.container {
+  background-color: var(--ion-color-secondary-tint);
+  padding: 10% 10% 10% 10%;
+  height: 100%;
+}
+
+.outer-unit-class {
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #f1f1f1;
+}
+
+.inner-unit-class {
+  /* display: inline-block; */
+}
+
+/* .outer-unit-class {
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    height: 80px;
+    border: 1px red solid;
+  
+    padding: 5px;  this 
+  }
+  
+  .outer-unit-class > div {
+    flex: 1 1 auto;
+    border: 1px red solid;
+    text-align: center;
+  
+    margin: 5px;  and that, will result in a 10px gap 
+  }
+  
+  .inner-unit-class {
+    text-justify: distribute-all-lines;
+  }
+   */
+
+.container ion-input {
+  width: 50px;
+  margin: 10px auto 10px auto;
+  --background: var(--ion-color-secondary-shade);
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    background-color: var(--ion-color-success-tint);
+    padding: 17% 10% 10% 10%;
+    height: 100%;
+  }
+}

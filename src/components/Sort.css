@@ -1,0 +1,35 @@
+.container {
+  background-color: var(--ion-color-secondary-tint);
+  padding: 10% 10% 10% 10%;
+  height: 100%;
+  padding-bottom: 10rem;
+  overflow: auto;
+  color: #f1f1f1;
+}
+
+.outer-unit-class {
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #f1f1f1;
+}
+
+.container ion-input {
+  width: 50px;
+  margin: 10px auto 10px auto;
+  --background: var(--ion-color-secondary-shade);
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    padding: 17% 10% 10% 10%;
+    height: 100%;
+  }
+}
+
+section.info-section {
+  color: #f1f1f1;
+}
+
+section.info-section p {
+  color: #e7e7e7;
+}

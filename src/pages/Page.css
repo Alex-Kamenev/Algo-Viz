@@ -1,0 +1,10 @@
+ion-toolbar.toolbar-color {
+  --background: var(--cause-why-not-gradient);
+
+  --color: rgb(255, 255, 255);
+}
+
+.button-back {
+  --background: var(--ion-color-medium);
+  --padding-end: 5px;
+}
