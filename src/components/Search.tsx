@@ -46,9 +46,7 @@ const Search: React.FC<ContainerProps> = ({ name }) => {
 
   //get max value of array for scale neededs
   function getMax(array: number[]) {
-    return array.reduce((a, b) => {
-      return Math.max(a, b);
-    });
+    return array.reduce((a, b) => Math.max(a, b), 0);
   }
 
   //Main return
@@ -120,7 +118,9 @@ const Search: React.FC<ContainerProps> = ({ name }) => {
         className="input-num"
         onIonChange={(e) => {
           let myNum = parseInt(e.detail.value!, 10);
-          if (myNum > 25) {
+          if (!Number.isFinite(myNum)) {
+            setNumberOfElements(0);
+          } else if (myNum > 25) {
             setNumberOfElements(25);
           } else if (myNum < 0) {
             setNumberOfElements(0);

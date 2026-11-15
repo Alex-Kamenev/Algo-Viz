@@ -1,5 +1,5 @@
 import { IonButton, IonInput } from '@ionic/react';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import './Sort.css';
 
 interface ContainerProps {
@@ -48,9 +48,7 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
 
   //get max value of array for scale neededs
   function getMax(array: number[]) {
-    return array.reduce((a, b) => {
-      return Math.max(a, b);
-    });
+    return array.reduce((a, b) => Math.max(a, b), 0);
   }
 
   // encapsulate setTimeout in a promise, so we can await it below
@@ -92,10 +90,10 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
     <div className="container" ref={containerRef}>
       <strong>{name}</strong>
       <p>
-        legent: color of bars:{' '}
+        Legend: color of bars:{' '}
         <span style={{ color: 'red', backgroundColor: 'white' }}>red</span>{' '}
         indicates swap required,{' '}
-        <span style={{ color: 'green', backgroundColor: 'white' }}>red</span>{' '}
+        <span style={{ color: 'green', backgroundColor: 'white' }}>green</span>{' '}
         indicates no swap required. Max input 25 and min input 0.
       </p>
 
@@ -170,11 +168,14 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
         value={numberOfElements}
         placeholder="Enter Number"
         className="input-num"
+        disabled={ableButton && arrayOfElements.length > 0}
         min="0"
         max="25"
         onIonChange={(e) => {
           let myNum = parseInt(e.detail.value!, 10);
-          if (myNum > 25) {
+          if (!Number.isFinite(myNum)) {
+            setNumberOfElements(0);
+          } else if (myNum > 25) {
             setNumberOfElements(25);
           } else if (myNum < 0) {
             setNumberOfElements(0);
@@ -185,13 +186,14 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
       ></IonInput>
       <IonButton
         className="input-num"
+        disabled={ableButton && arrayOfElements.length > 0}
         onClick={() => {
           const data = generateArrayOfnumbers(numberOfElements);
           setArrayOfElements(data);
           setMax(0);
           setMax(getMax(data));
           setNumberOfElementsStyleInput(numberOfElements);
-          setAbleButton(false);
+          setAbleButton(data.length === 0);
         }}
       >
         Generate Random Array
@@ -200,7 +202,7 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
         className="input-num"
         disabled={ableButton}
         onClick={() => {
-          bubbleSort(arrayOfElements.slice());
+          void bubbleSort(arrayOfElements.slice());
         }}
       >
         Use Bubble Sort to Sort Array
@@ -217,8 +219,8 @@ const Sort: React.FC<ContainerProps> = ({ name }) => {
         <p>
           We have an unsorted array. The task is to sort the array using bubble
           sort. Bubble sort compares the element from index 0 and if the 0th
-          index is less than 1st index then the values get swapped and if the
-          0th index is less than the 1st index then nothing happens. then, the
+          index is greater than the 1st index, the values are swapped; otherwise
+          they stay in place. then, the
           1st index compares to the 2nd index then the 2nd index compares to the
           3rd, and so on…
         </p>
