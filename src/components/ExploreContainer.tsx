@@ -34,8 +34,8 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
         This project is open to all who wish to contribute. Repo:{' '}
         <a href="https://github.com/Alex-Kamenev/Algo-Viz">algo-viz</a>
       </p>
-      <strong>Do to</strong>
-      <p>
+      <strong>To do</strong>
+      <div>
         <ol>
           <li>Implement Binary Sort and Search</li>
           <li>
@@ -50,7 +50,7 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
             Implement other well know algorithms for sorting and seraching
           </li>
         </ol>
-      </p>
+      </div>
       <br />
       <strong>Contributors</strong>
       <h5>Aleksandar Kamenev</h5>
